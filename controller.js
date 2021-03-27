@@ -71,11 +71,24 @@ exports.hapusMahasiswa = function (req, res) {
     var id = req.body.id_mahasiswa;
 
     connection.query('DELETE FROM mahasiswa WHERE id_mahasiswa = ?', [id],
-        function (error, rows, fields) {    
+        function (error, rows, fields) {
             if (error) {
                 console.log(error)
             } else {
                 response.ok("Behasil Hapus Data", res)
             }
         });
+}
+
+// menampilkan group matakuliah
+exports.tampilgroupmatakuliah = function (req, res) {
+    connection.query('SELECT c.*, b.* FROM krs a LEFT JOIN matakuliah b on a.id_matakuliah = b.id_matakuliah LEFT JOIN mahasiswa c on a.id_mahasiswa = c.id_mahasiswa',
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error)
+            } else {
+                response.oknested(rows, res)
+            }
+        }
+    );
 }
